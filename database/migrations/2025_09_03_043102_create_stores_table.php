@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->double('unit')->default(0);
+            $table->string('unit');
             $table->text('description')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
@@ -152,7 +152,7 @@ return new class extends Migration
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('order_id')->constrained();
-            $table->foreignUuid('recipe_id')->constrained();
+            $table->foreignId('recipe_id')->constrained();
             $table->double('quantity')->default(0);
             $table->double('price')->default(0);
             $table->double('total')->default(0);

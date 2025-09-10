@@ -8,6 +8,7 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use App\Filament\Pages\Admin\Dashboard;
 use Filament\Widgets\FilamentInfoWidget;
+use App\Providers\Filament\FilamentPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -23,19 +24,10 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
-            ->default()
+        return FilamentPlugin::useCommonSetting($panel)
             ->id('admin')
-            ->path('')
-            ->login()
+            ->path('admin')
             ->brandName('Quản lý cửa hàng')
-            ->colors([
-                'primary' => Color::Amber,
-            ])
-            ->favicon('/assets/logo.png')
-            // ->brandLogo('/assets/logo.png')
-            ->brandLogoHeight('2rem')
-            ->sidebarWidth('18rem')
             ->discoverResources(in: app_path('Filament/Resources/Admin'), for: 'App\Filament\Resources\Admin')
             ->discoverPages(in: app_path('Filament/Pages/Admin'), for: 'App\Filament\Pages\Admin')
             ->pages([
