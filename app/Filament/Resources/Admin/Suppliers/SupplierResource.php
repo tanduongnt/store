@@ -22,6 +22,7 @@ class SupplierResource extends Resource
     protected static ?string $model = Supplier::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'tabler-building-store';
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $modelLabel = 'Nhà cung cấp';
 

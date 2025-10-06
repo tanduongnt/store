@@ -30,19 +30,25 @@ class ProductForm
                             ->markAsRequired()
                             ->searchable()
                             ->preload()
-                            ->native(false)
-                            ->columnSpanFull(),
+                            ->native(false),
                         Forms\Components\TextInput::make('name')->label('Tên sản phẩm')
                             ->rules(['required'])
+                            ->markAsRequired()
+                            ->columnSpan(2),
+                        Forms\Components\TextInput::make('unit')->label('Đơn vị tính (Gốc)')
+                            ->rules(['required'])
                             ->markAsRequired(),
-                        Forms\Components\TextInput::make('unit')->label('Đơn vị tính')
+                        Forms\Components\TextInput::make('mix_unit')->label('Đơn vị tính pha chế')
+                            ->rules(['required'])
+                            ->markAsRequired(),
+                        Forms\Components\TextInput::make('unit_conversion')->label('Giá trị quy đổi đơn vị tính pha chế')
                             ->rules(['required'])
                             ->markAsRequired(),
                         Forms\Components\Textarea::make('description')->label('Mô tả')
                             ->columnSpanFull(),
                         Forms\Components\Toggle::make('active')->label('Hoạt động')
                             ->default(true),
-                    ])->columns(2)->columnSpanFull(),
+                    ])->columns(3)->columnSpanFull(),
             ]);
     }
 }

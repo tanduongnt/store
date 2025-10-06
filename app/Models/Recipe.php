@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pivot\ProductRecipe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +31,11 @@ class Recipe extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity'])->withTimestamps();
+    }
+
+    public function productRecipes(): HasMany
+    {
+        return $this->hasMany(ProductRecipe::class);
     }
 
     public function orderItems(): HasMany

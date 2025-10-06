@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('unit');
+            $table->string('mix_unit');
+            $table->string('unit_conversion')->default(1);
             $table->text('description')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
@@ -56,6 +58,7 @@ return new class extends Migration
         });
 
         Schema::create('contract_product', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('contract_id')->nullable()->constrained();
             $table->foreignId('product_id')->nullable()->constrained();
             $table->double('price')->default(0);
@@ -112,6 +115,7 @@ return new class extends Migration
         });
 
         Schema::create('product_transaction', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignUuid('transaction_id')->constrained();
             $table->double('quantity')->default(0);
@@ -131,6 +135,7 @@ return new class extends Migration
         });
 
         Schema::create('product_recipe', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('product_id')->constrained();
             $table->foreignId('recipe_id')->constrained();
             $table->double('quantity')->default(0);

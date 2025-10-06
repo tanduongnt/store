@@ -13,6 +13,8 @@ use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Components\Forms\MoneyInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms\Components\Repeater\TableColumn;
 
 class ContractForm
@@ -70,16 +72,34 @@ class ContractForm
 
                 Section::make()
                     ->schema([
-                        Forms\Components\Repeater::make('products')->label('Danh sách sản phẩm')
+                        Forms\Components\Repeater::make('contractProducts')->label('Danh sách sản phẩm')
+                            ->relationship()
+                            ->mutateRelationshipDataBeforeFillUsing(function (array $data): array {
+                                $product = Product::find($data['product_id']);
+                                $data['unit'] = $product?->unit;
+                                return $data;
+                            })
                             ->table([
                                 TableColumn::make('Tên sản phẩm')->alignment(Alignment::Start),
+                                TableColumn::make('Đơn vị tính')->alignment(Alignment::Start)->width('120px'),
                                 TableColumn::make('Giá')->alignment(Alignment::Start)->width('120px'),
                             ])
                             ->schema([
                                 Forms\Components\Select::make('product_id')
                                     ->options(fn() => Product::orderBy('name')->pluck('name', 'id'))
                                     ->rules(['required'])
-                                    ->markAsRequired(),
+                                    ->markAsRequired()
+                                    ->live()
+                                    ->afterStateUpdated(function (?string $state, ?string $old, Get $get, Set $set) {
+                                        $set(('unit'), null);
+                                        if ($state) {
+                                            $product = Product::find($state);
+                                            $set(('unit'), $product?->unit);
+                                        }
+                                    })
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                    ->native(false),
+                                Forms\Components\TextInput::make('unit')->readonly(),
                                 MoneyInput::make('price')
                                     ->rules(['required'])
                                     ->markAsRequired()

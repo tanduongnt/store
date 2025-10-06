@@ -21,6 +21,8 @@ class Product extends Model
         'name',
         'slug',
         'unit',
+        'mix_unit',
+        'unit_conversion',
         'description',
         'active',
     ];

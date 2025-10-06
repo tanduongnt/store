@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Pivot\ContractProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -40,5 +42,10 @@ class Contract extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot(['price'])->withTimestamps();
+    }
+
+    public function contractProducts(): HasMany
+    {
+        return $this->hasMany(ContractProduct::class);
     }
 }
