@@ -2,13 +2,15 @@
 
 namespace App\Filament\Resources\Admin\Purchases\Pages;
 
+use App\Models\Purchase;
 use Illuminate\Support\Str;
+use App\Filament\Concerns\HasRedirectUrl;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\Admin\Purchases\PurchaseResource;
-use App\Models\Purchase;
 
 class CreatePurchase extends CreateRecord
 {
+    use HasRedirectUrl;
     protected static string $resource = PurchaseResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array

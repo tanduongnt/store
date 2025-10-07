@@ -2,19 +2,20 @@
 
 namespace App\Filament\Resources\Admin\Imports;
 
-use App\Filament\Resources\Admin\Imports\Pages\CreateImport;
-use App\Filament\Resources\Admin\Imports\Pages\EditImport;
-use App\Filament\Resources\Admin\Imports\Pages\ListImports;
-use App\Filament\Resources\Admin\Imports\Pages\ViewImport;
-use App\Filament\Resources\Admin\Imports\Schemas\ImportForm;
-use App\Filament\Resources\Admin\Imports\Schemas\ImportInfolist;
-use App\Filament\Resources\Admin\Imports\Tables\ImportsTable;
-use App\Models\Transaction;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Models\Transaction;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\Admin\Imports\Pages\EditImport;
+use App\Filament\Resources\Admin\Imports\Pages\ViewImport;
+use App\Filament\Resources\Admin\Imports\Pages\ListImports;
+use App\Filament\Resources\Admin\Imports\Pages\CreateImport;
+use App\Filament\Resources\Admin\Imports\Schemas\ImportForm;
+use App\Filament\Resources\Admin\Imports\Tables\ImportsTable;
+use App\Filament\Resources\Admin\Imports\Schemas\ImportInfolist;
 
 class ImportResource extends Resource
 {
@@ -27,6 +28,11 @@ class ImportResource extends Resource
     protected static ?string $modelLabel = 'Nhập kho';
 
     protected static ?string $pluralModelLabel = 'Nhập kho';
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('import', true);
+    }
 
     public static function form(Schema $schema): Schema
     {

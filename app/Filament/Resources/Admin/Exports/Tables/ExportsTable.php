@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Admin\Imports\Tables;
+namespace App\Filament\Resources\Admin\Exports\Tables;
 
+use Filament\Tables;
 use Filament\Actions;
 use Filament\Tables\Table;
-use Filament\Tables;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
@@ -12,16 +12,17 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Enums\RecordActionsPosition;
 
-class ImportsTable
+class ExportsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('#')->rowIndex()->width('40px')->width('40px'),
-                Tables\Columns\TextColumn::make('date')->label('Ngày nhập kho')->date('d-m-Y H:i')->searchable()->sortable()->width('120px'),
-                Tables\Columns\TextColumn::make('code')->label('Mã nhập kho')->searchable()->sortable()->width('120px'),
+                Tables\Columns\TextColumn::make('date')->label('Ngày xuất kho')->date('d-m-Y H:i')->searchable()->sortable()->width('120px'),
+                Tables\Columns\TextColumn::make('code')->label('Mã xuất kho')->searchable()->sortable()->width('120px'),
                 Tables\Columns\TextColumn::make('description')->label('Mô tả')->limit(50)->searchable(),
+                Tables\Columns\TextColumn::make('receiver')->label('Người xuất kho')->searchable()->sortable()->width('120px'),
                 Tables\Columns\TextColumn::make('created_at')->label('Ngày tạo')->datetime('d-m-Y H:i')->sortable()->toggleable()->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('updated_at')->label('Ngày cập nhật')->datetime('d-m-Y H:i')->sortable()->toggleable()->toggledHiddenByDefault(),
             ])

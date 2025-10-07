@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Filament\Resources\Admin\Imports\Pages;
+namespace App\Filament\Resources\Admin\Exports\Pages;
 
 use App\Models\Transaction;
 use Illuminate\Support\Str;
 use App\Filament\Concerns\HasRedirectUrl;
 use Filament\Resources\Pages\CreateRecord;
-use App\Filament\Resources\Admin\Imports\ImportResource;
+use App\Filament\Resources\Admin\Exports\ExportResource;
 
-class CreateImport extends CreateRecord
+class CreateExport extends CreateRecord
 {
     use HasRedirectUrl;
-    protected static string $resource = ImportResource::class;
+    protected static string $resource = ExportResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['import'] = true;
+        $data['import'] = false;
         $data['code'] = static::generateCodeNumber();
         return $data;
     }

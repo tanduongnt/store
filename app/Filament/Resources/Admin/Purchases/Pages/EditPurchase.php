@@ -6,10 +6,12 @@ use Illuminate\Support\Str;
 use Filament\Actions\ViewAction;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Concerns\HasRedirectUrl;
 use App\Filament\Resources\Admin\Purchases\PurchaseResource;
 
 class EditPurchase extends EditRecord
 {
+    use HasRedirectUrl;
     protected static string $resource = PurchaseResource::class;
 
     protected function getHeaderActions(): array

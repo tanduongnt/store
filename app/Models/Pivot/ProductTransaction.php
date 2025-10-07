@@ -17,6 +17,7 @@ class ProductTransaction extends Pivot
     public $incrementing = true;
 
     protected $fillable = [
+        'id',
         'product_id',
         'contract_id',
         'quantity',

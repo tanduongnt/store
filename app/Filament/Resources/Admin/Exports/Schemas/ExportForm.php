@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Filament\Resources\Admin\Imports\Schemas;
+namespace App\Filament\Resources\Admin\Exports\Schemas;
 
 use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\Product;
-use Illuminate\Support\Str;
+use App\Models\Transaction;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\DB;
 use Filament\Support\Enums\Alignment;
 use App\Models\Pivot\ProductTransaction;
-use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Section;
 use App\Filament\Components\Forms\MoneyInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms\Components\Repeater\TableColumn;
 
-class ImportForm
+class ExportForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -29,12 +28,14 @@ class ImportForm
                     ->displayFormat('d/m/Y')
                     ->default(now())
                     ->native(false),
+                Forms\Components\TextInput::make('receiver')->label('Người xuất kho')
+                    ->rules(['required'])
+                    ->markAsRequired(true),
                 Forms\Components\Textarea::make('description')->label('Mô tả')
                     ->rules(['required'])
                     ->markAsRequired(true)
                     ->autoSize()
-                    ->columnSpanFull()
-                    ->extraFieldWrapperAttributes(['tour' => 'import_description']),
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('files')->label('Tệp đính kèm')
                     ->multiple()
                     ->openable()
@@ -88,7 +89,7 @@ class ImportForm
                                 MoneyInput::make('quantity')->label('Số lượng')
                                     ->rules(['required', 'numeric', 'gt:0'])
                                     ->markAsRequired()
-                                    ->minValue(function (Get $get, $record) {
+                                    ->maxValue(function (Get $get, $record) {
                                         $product_id = $get('product_id');
 
                                         $totalQuantity = ProductTransaction::query()
@@ -102,10 +103,10 @@ class ImportForm
                                         $totalQuantityImport = $totalQuantity[1] ?? 0;
                                         $totalQuantityExport = $totalQuantity[0] ?? 0;
 
-                                        return $totalQuantityExport - $totalQuantityImport;
+                                        return  $totalQuantityImport - $totalQuantityExport;
                                     })
                                     ->validationMessages([
-                                        'min' => ':Attribute tối đa là :min',
+                                        'max' => ':Attribute tối đa là :max',
                                     ])
                                     ->extraInputAttributes(['class' => 'text-end']),
                             ])
