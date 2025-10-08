@@ -144,8 +144,16 @@ return new class extends Migration
             $table->primary(['recipe_id', 'product_id']);
         });
 
+        Schema::create('block', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('status');
+            $table->timestamps();
+        });
+
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignId('block_id')->constrained();
             $table->string('status');
             $table->double('total')->default(0);
             $table->string('payment_status');
